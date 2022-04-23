@@ -2,10 +2,10 @@ from microbit import *
 import math
 import random
 
-# load calibration function from MicroBit
+# load the calibration function from MicroBit
 compass.calibrate()
 
-# MIDI NOTE ON function. Send MicroBit buttons through MIDI protocol.
+# MIDI NOTE ON function. Send the value of MicroBit buttons as MIDI message.
 def midiNoteOn(chan, n, vel):
     MIDI_NOTE_ON = 0x90
     if chan > 15:
@@ -17,8 +17,7 @@ def midiNoteOn(chan, n, vel):
     msg = bytes([MIDI_NOTE_ON | chan, n, vel])
     uart.write(msg)
 
-# MIDI NOTE OFF function. Send MicroBit buttons through MIDI protocol.
-def midiNoteOff(chan, n, vel):
+# MIDI NOTE OFF function. Send the value of MicroBit buttons as MIDI message.
     MIDI_NOTE_OFF = 0x80
     if chan > 15:
         return
@@ -30,7 +29,7 @@ def midiNoteOff(chan, n, vel):
     uart.write(msg)
 
 # MIDI Controle Change function
-# Send the values of MicroBit accelerometers and compass through MIDI protocol.
+# Send the values of MicroBit accelerometers and compass as MIDI message.
 def midiControlChange(chan, n, value):
     MIDI_CC = 0xB0
     if chan > 15:
@@ -43,7 +42,7 @@ def midiControlChange(chan, n, value):
     uart.write(msg)
 
 
-# UART protocol for MicroBit, transmit through pin0
+# UART protocol for sending MIDI messages
 def Start():
     uart.init(baudrate=31250, bits=8, parity=None, stop=1, tx=pin0)
 
@@ -101,4 +100,3 @@ while True:
         current_bearing = last_bearing
 
     sleep(100)
-
